@@ -1,7 +1,6 @@
 from serial.tools import list_ports
 import serial
 import time
-import csv
     
 # Identify the correct port
 ports = list_ports.comports()
