@@ -1,3 +1,10 @@
 /*.venv
-/*img
-/*key
+/img/*
+/key/*
+/aws ppe/*.key
+/aws ppe/*.pem
+/aws ppe/start.ps1
+/aws ppe/*Policy
+/AWS IoT Core/*.pem
+/AWS IoT Core/*.key
+/AWS IoT Core/*.crt

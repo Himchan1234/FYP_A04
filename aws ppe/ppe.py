@@ -66,8 +66,8 @@ def display_summary(summary_type, summary):
                 print(str(id) + ', ', end='')
 
 def main():
-    photo = 'photo-name'
-    bucket = 'bucket-name'
+    photo = 'dog.jpg'
+    bucket = '2324-it114115-fyp-a04-test'
     person_count = detect_ppe(photo, bucket)
     print("Persons detected: " + str(person_count))
 
