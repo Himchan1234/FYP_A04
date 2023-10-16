@@ -35,7 +35,6 @@ def create_directory_if_not_exists(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-
 # Pass the image data to an encoding function.
 def encode_image(image):
     with open(image, "rb") as image_file:
@@ -110,6 +109,9 @@ def main2():
     else:
         print(os.path.basename(capimg), ans1)
 
+
+def text_warning():
+
 def main1():
     question1 = "any person here?"
     question2 = "is person wearing a head hat"
@@ -123,6 +125,7 @@ def main1():
                 print(filename, "wear hat", ans2)
             else:
                 print(filename, ans1)
+
 
 
 if __name__ == "__main__":
