@@ -8,6 +8,7 @@ def send_sns(message, subject):
         if result['ResponseMetadata']['HTTPStatusCode'] == 200:
             print(result)
             print("Notification send successfully..!!!")
+            return True
     except Exception as e:
         print("Error occured while publish notifications and error is : ", e)
         return True

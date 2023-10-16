@@ -5,6 +5,9 @@ import os
 import datetime
 import time
 from picamera2 import Picamera2, Preview
+import sys
+sys.path.append("")
+from config import GOOGLE_PROJECT_ID, GOOGLE_CLOUD_API_KEY_PATH
 
 def create_directory_if_not_exists(directory):
     if not os.path.exists(directory):
@@ -18,15 +21,14 @@ def encode_image(image):
     return encoded_string
 
 def read_key_from_file():
-    dirname = os.path.dirname(__file__)  # Get the directory where the script is located
-    key_file_path = os.path.join(dirname, 'key', 'key.txt')  # Generate the path to key.txt
+    key_file_path = GOOGLE_CLOUD_API_KEY_PATH  # Generate the path to key.txt
 
     with open(key_file_path, 'r') as f:
         return f.read().strip()  # Read key and strip whitespace
 
 def vertax_api(img, question):
     access_token = read_key_from_file()
-    project_id = "crafty-willow-399607"
+    project_id = GOOGLE_PROJECT_ID
     api_url = f"https://us-central1-aiplatform.googleapis.com/v1/projects/{project_id}/locations/us-central1/publishers/google/models/imagetext:predict"
     headers = {
         # access key from ##gcloud auth application-default print-access-token
@@ -69,7 +71,7 @@ def CaptureImage():
     return filepath
 
 
-def main():
+def Vertex_main():
     capimg = CaptureImage()
     question1 = "any person here?"
     question2 = "is person wearing a head hat"
@@ -81,4 +83,4 @@ def main():
         print(os.path.basename(capimg), ans1)
 
 if __name__ == "__main__":
-    main()
+    Vertex_main()
