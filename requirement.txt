@@ -2,3 +2,5 @@ pyserial
 requests
 thread6
 paho-mqtt
+google-cloud-texttospeech
+python-vlc
