@@ -4,6 +4,7 @@ import sys
 sys.path.append("")
 from config import GOOGLE_SERVICE_ACCOUNT_PATH
 import requests
+import os
 
 
 def text_to_speech(text):
@@ -36,7 +37,7 @@ def text_to_speech(text):
     return audio_file_path
 
 def play_audio(file_path):
-    pass
+    os.system(f"mpg123 {file_path}")
 
 if __name__ == "__main__":
     audio = text_to_speech('偵測到有工人沒有佩戴頭盔！')

@@ -71,11 +71,12 @@ def CaptureImage():
     metadata = picam2.capture_file(filepath)
     print(metadata)
     picam2.close()
-    return filepath
+    img_name = f"{timestamp_str}.jpg"
+    return filepath, img_name
 
 
 def Vertex_main():
-    capimg = CaptureImage()
+    capimg, img_name = CaptureImage()
     capimg = "img/hat (2).jpg"
     question1 = "any person here?"
     question2 = "is person wearing a head hat"
