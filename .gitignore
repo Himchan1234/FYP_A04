@@ -3,4 +3,5 @@
 /images/*
 /key/*
 terraform.*
+terraform.*.*
 *.mp3

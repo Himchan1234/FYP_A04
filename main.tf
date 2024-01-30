@@ -10,7 +10,7 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"
-  shared_credentials_files = ["F:/Python/FYPRobotDog/mycode_20240120/key/aws_credentials.ini"]
+  shared_credentials_files = ["key/aws_credentials.ini"]
 }
 
 resource "aws_s3_bucket" "fyp_iot_image" {
@@ -70,16 +70,29 @@ resource "aws_dynamodb_table" "iot_sensor" {
 }
 
 ##IoT Configure
-resource "random_id" "id" {
-	byte_length = 8
+resource "aws_iot_thing_type" "raspberry_pi" {
+  name = "RaspberryPi"
 }
 
-resource "aws_iot_thing" "thing" {
-	name = "thing_${random_id.id.hex}"
+resource "aws_iot_thing" "raspi" {
+  name       = "Raspi"
+  thing_type_name = aws_iot_thing_type.raspberry_pi.name
 }
 
-output "thing_name" {
-	value = aws_iot_thing.thing.name
+resource "aws_iot_policy" "raspi_policy" {
+  name = "RaspberryPiPolicy"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "iot:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
 
 resource "tls_private_key" "key" {
@@ -100,21 +113,33 @@ resource "tls_self_signed_cert" "cert" {
 	}
 }
 
+
 resource "aws_iot_certificate" "cert" {
-	certificate_pem = trimspace(tls_self_signed_cert.cert.cert_pem)
-	active          = true
+  certificate_pem = trimspace(tls_self_signed_cert.cert.cert_pem)
+  active          = true
 }
 
 resource "aws_iot_thing_principal_attachment" "attachment" {
-	principal = aws_iot_certificate.cert.arn
-	thing     = aws_iot_thing.thing.name
+  principal = aws_iot_certificate.cert.arn
+  thing     = aws_iot_thing.raspi.name
 }
 
-output "cert" {
-	value = tls_self_signed_cert.cert.cert_pem
+resource "local_file" "cert" {
+  content  = tls_self_signed_cert.cert.cert_pem
+  filename = "${path.module}/IoT_certificate.pem.crt"
 }
 
-output "key" {
-	value = tls_private_key.key.private_key_pem
-	sensitive = true
+
+resource "local_file" "private_key" {
+  content  = tls_private_key.key.private_key_pem
+  filename = "${path.module}/IoT_private_key.pem"
+}
+
+data "http" "root_ca" {
+  url = "https://www.amazontrust.com/repository/AmazonRootCA1.pem"
+}
+
+resource "local_file" "IoT_root_ca" {
+  content  = data.http.root_ca.response_body
+  filename = "${path.module}/rootCA.pem"
 }
