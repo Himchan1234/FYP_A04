@@ -5,3 +5,6 @@
 terraform.*
 terraform.*.*
 *.mp3
+/Script/*
+/*__pycache__
+/Function/*__pycache__

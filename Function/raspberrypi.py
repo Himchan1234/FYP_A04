@@ -24,5 +24,5 @@ def CaptureImage():
         return filepath, img_name
 
     else:
-        return "image/worker.jpg", "worker.jpg"
+        return "images/worker.jpg", "worker.jpg"
     

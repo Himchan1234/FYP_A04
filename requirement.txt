@@ -1,2 +1,4 @@
 google-cloud-aiplatform
+google-cloud-texttospeech
 paho-mqtt
+playsound
